@@ -17,7 +17,7 @@
 </head>
 <body>
   <header>
-    <div class="logo">TechStore</div>
+    <div class="logo">TechStore Interfaz web para una tienda de computadoras y accesorios varios relacionados con tecnología </div>
     <button id="btnCarrito">Carrito: <span id="cont">0</span></button>
   </header>
 
