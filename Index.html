@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>TechStore - UNAB M4</title>
+  <style>
+    body{background:#0d0d0d;color:#fff;font-family:Arial;margin:0}
+    header{background:#111;padding:20px;border-bottom:2px solid #00ffff;display:flex;justify-content:space-between}
+    .logo{color:#00ffff;font-size:24px;font-weight:bold}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;padding:30px}
+    .card{background:#1a1a1a;padding:15px;border-radius:10px;border:1px solid #333;transition:.3s}
+    .card:hover{border-color:#00ffff;box-shadow:0 0 15px #00ffff;transform:translateY(-5px)}
+    .precio{color:#00ff88;font-size:22px;font-weight:bold}
+    button{background:#00ffff;border:none;color:#000;padding:10px;border-radius:5px;font-weight:bold;cursor:pointer;width:100%}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">TechStore</div>
+    <button id="btnCarrito">Carrito: <span id="cont">0</span></button>
+  </header>
+
+  <div class="grid" id="productos"></div>
+
+  <script>
+    const productos = [
+      {id:1,nombre:"Laptop Lenovo Legion 5",precio:850000,specs:"16GB RAM | RTX 3060"},
+      {id:2,nombre:"PC Gamer Intel i7",precio:1200000,specs:"32GB RAM | RX 6700 XT"},
+      {id:3,nombre:"Auriculares HyperX",precio:45000,specs:"7.1 Surround | Mic"},
+    ];
+    let carrito = [];
+    
+    const grid = document.getElementById('productos');
+    grid.innerHTML = productos.map(p=>`
+      <div class="card">
+        <h3>${p.nombre}</h3>
+        <p style="color:#aaa;font-size:14px">${p.specs}</p>
+        <p class="precio">$${p.precio.toLocaleString()}</p>
+        <button onclick="agregar(${p.id})">Agregar al Carrito</button>
+      </div>
+    `).join('');
+
+    function agregar(id){
+      carrito.push(productos.find(p=>p.id==id));
+      document.getElementById('cont').innerText = carrito.length;
+      alert('Producto agregado!');
+    }
+  </script>
+</body>
+</html>
