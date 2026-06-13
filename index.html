@@ -24,28 +24,30 @@
   <div class="grid" id="productos"></div>
 
   <script>
-    const productos = [
-      {id:1,nombre:"Laptop Lenovo Legion 5",precio:850000,specs:"16GB RAM | RTX 3060"},
-      {id:2,nombre:"PC Gamer Intel i7",precio:1200000,specs:"32GB RAM | RX 6700 XT"},
-      {id:3,nombre:"Auriculares HyperX",precio:45000,specs:"7.1 Surround | Mic"},
-    ];
-    let carrito = [];
-    
-    const grid = document.getElementById('productos');
-    grid.innerHTML = productos.map(p=>`
-      <div class="card">
-        <h3>${p.nombre}</h3>
-        <p style="color:#aaa;font-size:14px">${p.specs}</p>
-        <p class="precio">$${p.precio.toLocaleString()}</p>
-        <button onclick="agregar(${p.id})">Agregar al Carrito</button>
-      </div>
-    `).join('');
+        const productos = [
+  {id: 1, nombre: "Portátil Lenovo Legion 5", precio: 850000, especificaciones: "16 GB de RAM | RTX 3060"},
+  {id: 2, nombre: "PC Gamer Intel i7", precio: 1200000, especificaciones: "32 GB de RAM | RX 6700 XT"},
+  {id: 3, nombre: "Auriculares HyperX", precio: 45000, especificaciones: "Sonido envolvente 7.1 | Micrófono"}
+];
 
-    function agregar(id){
-      carrito.push(productos.find(p=>p.id==id));
-      document.getElementById('cont').innerText = carrito.length;
-      alert('Producto agregado!');
-    }
+let carrito = [];
+
+const grid = document.getElementById('productos');
+grid.innerHTML = productos.map(p => `
+  <div class="card">
+    <h3>${p.nombre}</h3>
+    <p style="color:#aaa; font-size:14px">${p.especificaciones}</p>
+    <p class="precio">$${p.precio.toLocaleString()}</p>
+    <button onclick="agregar(${p.id})">Agregar al Carrito</button>
+  </div>
+`).join('');
+
+function agregar(id){
+  carrito.push(productos.find(p => p.id == id));
+  document.getElementById('cont').innerText = carrito.length;
+  alert('Producto agregado!');
+}
+    
   </script>
 </body>
 </html>
