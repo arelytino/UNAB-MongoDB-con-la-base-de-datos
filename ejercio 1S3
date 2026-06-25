@@ -1,0 +1,9 @@
+Ejercicio 1
+Escribir un programa que muestre por pantalla la cadena ¡Hola Mundo!.
+!DOCTYPE html>
+<html>
+<head>
+  <title>Ejercicios S3</title>
+</head>
+<body>
+  <h1>Revisa la consola con F12</h1>
