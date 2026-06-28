@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicios S5 - UDB</title>
+</head>
+<body>
+  <h1>Ejercicios Semana 5</h1>
+  <button onclick="ej1()">1. Par o Impar</button>
+  <button onclick="ej2()">2. Días del mes</button>
+  <button onclick="ej3()">3. Examen aprobado</button>
+  <button onclick="ej4()">4. Grupo de letras</button>
+  <button onclick="ej5()">5. Piedra, Papel o Tijera</button>
+
+  <script>
+    function ej1() {
+      let num = parseInt(prompt("Ingresa un número:"));
+      if (num % 2 === 0) {
+        alert("El número " + num + " es PAR");
+      } else {
+        alert("El número " + num + " es IMPAR");
+      }
+    }
+
+    function ej2() {
+      let mes = prompt("Ingresa el nombre del mes:").toLowerCase();
+      let dias;
+      if (mes === "febrero") {
+        dias = 28;
+      } else if (["abril", "junio", "septiembre", "noviembre"].includes(mes)) {
+        dias = 30;
+      } else {
+        dias = 31;
+      }
+      alert("El mes de " + mes + " tiene " + dias + " días");
+    }
+
+    function ej3() {
+      let nota = parseFloat(prompt("Ingresa la nota del examen:"));
+      if (nota > 7) {
+        alert("Aprobado");
+      } else if (nota > 4) {
+        alert("Debe recuperar");
+      } else {
+        alert("Aplazado");
+      }
+    }
+
+    function ej4() {
+      let letra = prompt("Ingresa una letra:").toLowerCase();
+      let grupo = "";
+      if (["a", "e", "i", "o", "u"].includes(letra)) grupo = "A";
+      else if (["b", "c", "d", "f", "g"].includes(letra)) grupo = "B";
+      else if (["h", "j", "k", "l", "m"].includes(letra)) grupo = "C";
+      else if (["n", "p", "q", "r"].includes(letra)) grupo = "D";
+      else if (["s", "t", "v", "w", "x", "y", "z"].includes(letra)) grupo = "E";
+      else grupo = "No válida";
+      alert("La letra " + letra + " pertenece al grupo " + grupo);
+    }
+
+    function ej5() {
+      let rondas = parseInt(prompt("¿A cuántas rondas quieres jugar?"));
+      let puntajeJugador = 0;
+      let puntajePC = 0;
+      const opciones = ["piedra", "papel", "tijera"];
+
+      for (let i = 1; i <= rondas; i++) {
+        let jugadaUser = prompt("Ronda " + i + " de " + rondas + "\nElige: piedra, papel o tijera").toLowerCase();
+        let jugadaPC = opciones[Math.floor(Math.random() * 3)];
+        
+        let resultado = "";
+        if (jugadaUser === jugadaPC) {
+          resultado = "Empate";
+        } else if (
+          (jugadaUser === "piedra" && jugadaPC === "tijera") ||
+          (jugadaUser === "papel" && jugadaPC === "piedra") ||
+          (jugadaUser === "tijera" && jugadaPC === "papel")
+        ) {
+          resultado = "Jugadora ha ganado esta ronda";
+          puntajeJugador++;
+        } else {
+          resultado = "Computadora ha ganado esta ronda";
+          puntajePC++;
+        }
+
+        alert(
+          "Ronda: " + i + " de " + rondas + "\n" +
+          "Jugadora: " + jugadaUser + "\n" +
+          "Computadora: " + jugadaPC + "\n" +
+          resultado + "\n" +
+          "Puntaje: " + puntajeJugador + " (Jugadora) - " + puntajePC + " (Computadora)"
+        );
+      }
+
+      if (puntajeJugador > puntajePC) {
+        alert("¡Ganaste el juego! Final: " + puntajeJugador + " - " + puntajePC);
+      } else if (puntajePC > puntajeJugador) {
+        alert("Ganó la Computadora. Final: " + puntajeJugador + " - " + puntajePC);
+      } else {
+        alert("Empate final: " + puntajeJugador + " - " + puntajePC);
+      }
+    }
+  </script>
+</body>
+</html>
