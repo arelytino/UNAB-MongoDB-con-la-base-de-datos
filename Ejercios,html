@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicios</title>
+</head>
+<body>
+  <script>
+    document.write("<p><b>Ejercicio 1:</b> ¡Hola Mundo!</p>");
+    let mensaje = "¡Hola Mundo!";
+    document.write("<p><b>Ejercicio 2:</b> " + mensaje + "</p>");
+    let nombre = prompt("Ejercicio 3 - Escribe tu nombre:");
+    document.write("<p><b>Ejercicio 3:</b> ¡Hola " + nombre + "!</p>");
+    let horas = parseFloat(prompt("Ejercicio 4 - Horas trabajadas:"));
+    let coste = parseFloat(prompt("Ejercicio 4 - Coste por hora:"));
+    document.write("<p><b>Ejercicio 4:</b> Tu paga es $" + (horas * coste) + "</p>");
+    let peso = parseFloat(prompt("Ejercicio 5 - Peso en kg:"));
+    let estatura = parseFloat(prompt("Ejercicio 5 - Estatura en metros:"));
+    let imc = (peso / (estatura * estatura)).toFixed(2);
+    document.write("<p><b>Ejercicio 5:</b> Tu IMC es " + imc + "</p>");
+    let n = parseInt(prompt("Ejercicio 6 - Número n:"));
+    let m = parseInt(prompt("Ejercicio 6 - Número m:"));
+    document.write("<p><b>Ejercicio 6:</b> Cociente: " + Math.floor(n/m) + " y Resto: " + (n%m) + "</p>");
+  </script>
+</body>
+</html>
