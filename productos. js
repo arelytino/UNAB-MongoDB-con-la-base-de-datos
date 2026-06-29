@@ -1,0 +1,52 @@
+// productos.js - Datos y lógica de TechStore
+
+// 1. BASE DE DATOS DE PRUEBA - Aquí irán tus productos de MongoDB después
+const productos = [
+  {id:1, nombre:"Laptop Gamer ASUS ROG", precio:1299, categoria:"Laptop", especificaciones:"Intel i7, RTX 4060, 16GB RAM, 1TB SSD"},
+  {id:2, nombre:"PC Gamer Armada Ryzen 5", precio:899, categoria:"PC", especificaciones:"Ryzen 5 5600, RX 7600, 32GB RAM"},
+  {id:3, nombre:"Monitor 27'' 165Hz", precio:220, categoria:"Accesorio", especificaciones:"Panel IPS 2K, 1ms, FreeSync Premium"},
+  {id:4, nombre:"Teclado Mecánico 60%", precio:85, categoria:"Accesorio", especificaciones:"Switch Red, RGB, Cable USB-C"},
+  {id:5, nombre:"Mouse Logitech G Pro X", precio:45, categoria:"Accesorio", especificaciones:"Inalámbrico, 25K DPI, Superligero"},
+  {id:6, nombre:"Audífonos HyperX Cloud", precio:60, categoria:"Accesorio", especificaciones:"Sonido 7.1 Virtual, Micrófono"}
+];
+
+// 2. CARRITO GLOBAL
+let carrito = [];
+
+// 3. FUNCIÓN: Pinta las cards en el grid
+function mostrarProductos(lista){
+  const contenedor = document.getElementById('productos');
+  contenedor.innerHTML = '';
+  lista.forEach(p => {
+    contenedor.innerHTML += `
+      <div class="card">
+        <h3>${p.nombre}</h3>
+        <p>${p.especificaciones}</p>
+        <p class="precio">$${p.precio.toLocaleString()}</p>
+        <button class="btn-agregar" onclick="agregarCarrito(${p.id})">Agregar al carrito</button>
+      </div>
+    `;
+  });
+}
+
+// 4. FUNCIÓN: Agregar al carrito
+function agregarCarrito(id){
+  carrito.push(id);
+  document.getElementById('cont').textContent = carrito.length;
+}
+
+// 5. FUNCIÓN: Filtrar por categoría para el menú desplegable
+function filtrar(categoria){
+  const filtrados = productos.filter(p => p.categoria === categoria);
+  mostrarProductos(filtrados);
+}
+
+// 6. CARGAR PRODUCTOS AL INICIAR LA PÁGINA
+document.addEventListener('DOMContentLoaded', () => {
+  mostrarProductos(productos);
+});
+### 2. Ahora edita tu index2.html y borra todo el <script>
+Quita desde <script> hasta </script> y cámbialo por esto, justo antes de </body>:
+<script src="productos.js"></script>
+</body>
+</html>
