@@ -1,0 +1,114 @@
+header, botón inicio, banner, cards, carrito y footer.
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>TechStore - Computadoras y Accesorios</title>
+  <style>
+    *{box-sizing:border-box}
+    body{background:#0d0d0d;color:#fff;font-family:Arial;margin:0}
+    
+    /* HEADER */
+    header{background:#111;padding:20px 30px;border-bottom:2px solid #00ffff;display:flex;justify-content:space-between;align-items:center;gap:20px}
+    .logo{color:#00ffff;font-size:24px;font-weight:bold;white-space:nowrap}
+    
+    /* BOTONES HEADER */
+    .btn-inicio{background:#00ffff;color:#000;padding:10px 16px;border-radius:5px;text-decoration:none;font-weight:bold}
+    .btn-inicio:hover{background:#00ccff}
+    #btnCarrito{background:#00ffff;border:none;color:#000;padding:10px 16px;border-radius:5px;font-weight:bold;cursor:pointer}
+    #btnCarrito:hover{background:#00ccff}
+
+    /* BANNER */
+    .banner{background:linear-gradient(90deg,#00ffff 0%, #0d0d0d 100%);text-align:center;padding:50px 20px}
+    .banner h1{margin:0;font-size:38px}
+    .banner p{margin:10px 0 0;font-size:18px;color:#ccc}
+
+    /* GRID DE PRODUCTOS */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;padding:30px;max-width:1400px;margin:auto}
+    
+    /* CARDS */
+    .card{background:#1a1a1a;padding:20px;border-radius:10px;border:1px solid #333;transition:.3s;display:flex;flex-direction:column}
+    .card:hover{border-color:#00ffff;box-shadow:0 0 15px #00ffff;transform:translateY(-5px)}
+    .card h3{margin:0 0 10px 0;color:#00ffff}
+    .card p{margin:0 0 10px 0;color:#ccc;font-size:14px;flex-grow:1}
+    .precio{color:#00ff88;font-size:24px;font-weight:bold;margin:10px 0}
+    
+    /* BOTON CARD */
+    .btn-agregar{background:#00ffff;border:none;color:#000;padding:12px;border-radius:5px;font-weight:bold;cursor:pointer;width:100%;font-size:16px}
+    .btn-agregar:hover{background:#00ccff}
+    
+    /* FOOTER */
+    footer{background:#111;text-align:center;padding:25px;margin-top:40px;border-top:1px solid #333;color:#aaa}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">TechStore</div>
+    <a href="index.html" class="btn-inicio">Inicio</a>
+    <button id="btnCarrito">Carrito: <span id="cont">0</span></button>
+  </header>
+
+  <section class="banner">
+    <h1>Computadoras y Accesorios Tecnológicos</h1>
+    <p>Lo último en hardware, gaming y oficina. Precios directos.</p>
+  </section>
+
+  <main>
+    <div class="grid" id="productos"></div>
+  </main>
+
+  <footer>
+    <p>© 2026 TechStore | Interfaz Web Módulo 4 | San Salvador, SV</p>
+  </footer>
+
+  <script>
+    // DATOS DE PRUEBA - Luego lo cambias por tu fetch a MongoDB
+    const productos = [
+      {id:1, nombre:"Laptop Gamer ASUS ROG", precio:1299, especificaciones:"Intel i7, RTX 4060, 16GB RAM, 1TB SSD"},
+      {id:2, nombre:"PC Gamer Armada Ryzen 5", precio:899, especificaciones:"Ryzen 5 5600, RX 7600, 32GB RAM"},
+      {id:3, nombre:"Monitor 27'' 165Hz", precio:220, especificaciones:"Panel IPS 2K, 1ms, FreeSync Premium"},
+      {id:4, nombre:"Teclado Mecánico 60%", precio:85, especificaciones:"Switch Red, RGB, Cable USB-C"},
+      {id:5, nombre:"Mouse Logitech G Pro X", precio:45, especificaciones:"Inalámbrico, 25K DPI, Superligero"},
+      {id:6, nombre:"Audífonos HyperX Cloud", precio:60, especificaciones:"Sonido 7.1 Virtual, Micrófono"},
+      {id:7, nombre:"SSD NVMe 2TB", precio:110, especificaciones:"Lectura 7000MB/s, Escritura 6500MB/s"},
+      
+      {id:8, nombre:"Webcam 4K Logitech", precio:130, especificaciones:"Autoenfoque, HDR, Micrófono Dual"}
+    ];
+ let carrito = [];
+    const contenedor = document.getElementById('productos');
+    const contCarrito = document.getElementById('cont');
+
+    // FUNCIÓN: Pinta las cards en el grid
+    function mostrarProductos(lista){
+      contenedor.innerHTML = '';
+      lista.forEach(p => {
+        contenedor.innerHTML += `
+          <div class="card">
+            <h3>${p.nombre}</h3>
+            <p>${p.especificaciones}</p>
+            <p class="precio">$${p.precio.toLocaleString()}</p>
+            <button class="btn-agregar" onclick="agregarCarrito(${p.id})">Agregar al carrito</button>
+          </div>
+        `;
+      });
+    }
+
+    // FUNCIÓN: Carrito
+    function agregarCarrito(id){
+      carrito.push(id);
+      contCarrito.textContent = carrito.length;
+    }
+
+    // CARGAR PRODUCTOS AL INICIAR
+    mostrarProductos(productos); 
+    
+    /* CUANDO CONECTES MONGO:
+    fetch('/api/productos')
+      .then(res => res.json())
+      .then(data => mostrarProductos(data));
+    */
+  </script>
+
+</body>
+</html>
