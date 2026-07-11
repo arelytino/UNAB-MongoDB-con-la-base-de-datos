@@ -63,6 +63,6 @@ app.post('/api/productos', async (req, res) => {
 // Iniciar servidor
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(🚀 Servidor Módulo 5 corriendo en http://localhost:${PORT});
-});
-Completar server.js Módulo 5
+'  console.log(🚀 Servidor Módulo 5 corriendo en http://localhost:${PORT});
+});' 
+//server.js Modulo 5 //
