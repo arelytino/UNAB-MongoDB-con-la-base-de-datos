@@ -1,0 +1,31 @@
+require('dotenv').config(); // Para usar el .env
+const express = require('express'); // Framework
+const cors = require('cors'); // Para conectar frontend con backend
+const { MongoClient } = require('mongodb'); // Controlador de Mongo
+
+const app = express();
+const PORT = 3000;
+
+app.use(cors()); // Para que no bloquee el frontend
+app.use(express.json()); // Para que lea JSON
+app.use(express.static('.')); // Para que sirva el index2.html
+
+const client = new MongoClient(process.env.MONGO_URI);
+let db;
+
+// Conectar a MongoDB Atlas
+client.connect().then(() => {
+    db = client.db("techstore");
+    console.log("✅ Conectado a MongoDB Atlas - Módulo 5");
+}).catch(err => console.error(err));
+
+// RUTA PARA MANDAR LOS PRODUCTOS - ESTO PIDE EL FRONT
+app.get('/api/productos', async (req, res) => {
+    const productos = await db.collection("productos").find().toArray();
+    res.json(productos);
+});
+
+app.listen(PORT, () => {
+    console.log(Servidor Módulo 5 corriendo en http://localhost:${PORT});
+    //server.js Modulo 5 //
+});
