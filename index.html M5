@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECH STORE - Modulo 5</title>
+    <style>
+        body { font-family: Arial; margin: 0; background: #f4f4f4; }
+        header { background: #1a1a2e; color: white; padding: 20px; text-align: center; }
+        #productos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 20px; }
+        .card { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .precio { color: #e94560; font-size: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>TECH STORE</h1>
+        <p>Tienda de Computadoras y Accesorios</p>
+    </header>
+    <main id="productos"></main>
+    <script src="productos.js"></script>
+</body>
+</html>
