@@ -1,4 +1,3 @@
-
 require('dotenv').config(); // Para usar el .env
 const express = require('express'); // Framework
 const cors = require('cors'); // Para conectar frontend con backend
@@ -7,15 +6,50 @@ const { MongoClient } = require('mongodb'); // Controlador de Mongo
 const app = express();
 const PUERTO = 3000;
 
+// Middlewares
 app.use(cors()); // Para que no bloquee el frontend
 app.use(express.json()); // Para que lea JSON
-app.use(express.static('.')); // Para que sirva el index2.html
+app.use(express.static('.')); // Para que sirva el index.html
 
+// 1. CONEXIÓN A MONGODB ATLAS
 const client = new MongoClient(process.env.MONGO_URI);
 let db;
 
-// Conectar un Atlas de MongoDB
-client.connect().then(() => {
+// Conectar a Atlas
+client.connect()
+.then(() => {
     db = client.db("techstore");
-    console.log("✅ Conectado a MongoDB Atlas - Módulo 5");
-}).catch(err => console.error(err));
+    console.log("✅ Conectado a MongoDB Atlas - Base: techstore");
+})
+.catch(err => console.error("❌ Error al conectar:", err));
+
+// 2. RUTAS DEL API
+
+// Ruta de prueba
+app.get('/api', (req, res) => {
+  res.json({ mensaje: "Servidor funcionando correctamente" });
+});
+
+// Ruta para GUARDAR productos
+app.post('/api/productos', async (req, res) => {
+    try {
+        const resultado = await db.collection("productos").insertOne(req.body);
+        res.json({ mensaje: "Producto guardado", id: resultado.insertedId });
+    } catch (error) {
+        res.status(500).json({ error: "No se pudo guardar" });
+    }
+});
+
+// Ruta para OBTENER productos
+app.get('/api/productos', async (req, res) => {
+    try {
+        const productos = await db.collection("productos").find().toArray();
+        res.json(productos);
+    } catch (error) {
+        res.status(500).json({ error: "No se pudieron obtener" });
+    }
+});
+
+// 3. LEVANTAR EL SERVIDOR
+app.listen(PUERTO, () => {
+    console.log(✅ Servidor corriendo en http://localhost:${PUERTO});
