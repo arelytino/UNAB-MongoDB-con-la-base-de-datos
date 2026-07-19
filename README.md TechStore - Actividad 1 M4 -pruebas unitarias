@@ -1,0 +1,90 @@
+
+# TechStore  Interfaz web para una tienda de computadoras y accesorios varios relacionados con tecnología.- Actividad 1 M4
+
+*Universidad Doctor Andrés Bello Regional Sonsonate*  
+*Estudiante:* [Dina Arely Tino De Martinez]  
+*Carné:* [Tl0479022012]  
+*Estudiante:* [Marlon Gerardo Flores Portillo]  
+*Carné:* [fp1033022017] 
+*Módulo IV:* Desarrollo de Aplicaciones web con HTML, CSS y JS  
+*Catedrático:* Ing. José Rosalio Serrano Carvaja
+## 1. Definición del Proyecto: TechStore interfaz web para una tienda de computadoras y accesorios varios. 
+
+*1. ¿Qué problema resolverá?*  
+Facilitar la compra de equipo tecnológico online. Muestra RAM, SSD, GPU para comparar specs antes de comprar.
+
+*2. ¿Quiénes serán los usuarios?*  
+Cliente: Navega y compra. Administrador: Gestiona productos y órdenes.
+
+*3. ¿Qué funcionalidades tendrá?*  
+Catálogo, carrito de compras con JS, diseño responsive, estructura lista para MongoDB.
+
+*4. ¿Qué datos manejará?*  
+Colección productos: {nombre, precio, categoria, specs}.  
+Colección ordenes: {cliente, productos[], total, fecha}.
+## 2. Cómo ejecutar el proyecto
+
+### Requisitos
+- Node.js v24.18.0 
+- MongoDB Local corriendo
+- Navegador Chrome/Edge
+
+### Pasos para correrlo
+1. Instalar dependencias:
+```bash
+npm install express mongodb cors
+2. Iniciar MongoDB
+3. Correr el servidor:
+node servidor.js
+4. Abrir: http://localhost:3000
+
+## 3. Endpoints de la API
+Método	Ruta	Descripción
+GET	/api/productos	Obtener todos los productos
+POST	/api/productos	Crear producto
+PUT	/api/productos/:id	Actualizar producto
+DELETE	/api/productos/:id	Eliminar producto
+## 4. Pruebas Unitarias
+Capturas de las pruebas en Postman:
+![Prueba GET](capturas/get.png)
+![Prueba POST](capturas/post.png)
+Copia y pega esto para cerrar bien:
+## 2. Cómo ejecutar el proyecto
+
+### Requisitos
+- Node.js v24.18.0 
+- MongoDB Local corriendo
+- Navegador Chrome/Edge
+
+### Pasos para correrlo
+1. Instalar dependencias:
+```bash
+npm install express mongodb cors
+2. Iniciar MongoDB
+3. Correr el servidor:
+node servidor.js
+4. Abrir: http://localhost:3000
+
+## 3. Endpoints de la API
+Método	Ruta	Descripción
+GET	/api/productos	Obtener todos los productos
+POST	/api/productos	Crear producto
+PUT	/api/productos/:id	Actualizar producto
+DELETE	/api/productos/:id	Eliminar producto
+## 4. Pruebas Unitarias
+Capturas de las pruebas en Postman:
+![Prueba GET](capturas/get.png)
+![Prueba POST](capturas/post.png)
+
+## Integrantes G7
+- Dina Arely Tino De Martínez - TI0479022012
+- Marlon Gerardo Flores Portillo - fp1033022017
+
+---
+
+### *PASO FINAL: GUARDAR*
+1.  Clic en Commit changes botón verde
+2.  Mensaje: README completo con instrucciones y endpoints
+3.  Commit changes
+
+
