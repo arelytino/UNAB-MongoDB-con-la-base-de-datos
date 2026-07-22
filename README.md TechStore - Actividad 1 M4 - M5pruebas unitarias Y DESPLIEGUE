@@ -28,6 +28,7 @@ Colección ordenes: {cliente, productos[], total, fecha}.
 - Node.js v24.18.0 
 - MongoDB Local corriendo
 - Navegador Chrome/Edge
+-*NOTA*: Cambiar MongoDB Local corriendo por MongoDB Atlas en requisitos porque el código usa process.env.MONGO_URI
 
 ### Pasos para correrlo
 1. Instalar dependencias:
@@ -76,7 +77,45 @@ Capturas de las pruebas en Postman:
 ![Prueba GET](capturas/get.png)
 ![Prueba POST](capturas/post.png)
 
+## 5. DESPLIEGUE - M5 ENTORNO BACK-END
 
+### 5.1 Procedimiento de Despliegue
+Para TechStore se usará un despliegue en la nube con 3 capas:
+1. *Frontend*: Vercel
+2. *Backend*: Render.com con servidor.js
+3. *Base de Datos*: MongoDB Atlas - BD techstore
+El código se gestiona en GitHub: arelytino/UNAB-MongoDB-con-la-base-de-datos
+
+### 5.2 Pasos para el Despliegue
+1. *Pruebas Locales*: Ejecutar node servidor.js y verificar ✅ Conectado a MongoDB Atlas
+2. *Versionar*: Subir todo el código a GitHub
+3. *Configurar BD*: Crear cluster en MongoDB Atlas. Crear usuario y copiar MONGO_URI
+4. *Desplegar Backend*: En Render.com crear Web Service. 
+   - Build: npm install
+   - Start: node servidor.js
+   - Env Var: MONGO_URI=tu_cadena
+5. *Desplegar Frontend*: En Vercel importar repo del frontend
+6. *Prueba Final*: Acceder a la URL de Render y probar /api/productos
+
+### 5.3 Tecnologías Necesarias
+| Tecnología | Versión/Uso |
+| --- | --- |
+| Node.js | v24.18.0 - Entorno de ejecución |
+| Express | Framework para API REST |
+| MongoDB Atlas | BD NoSQL en la nube |
+| dotenv | Manejo de process.env.MONGO_URI |
+| CORS | app.use(cors()) para conexión |
+| Render | Hosting del Backend |
+| GitHub | Repositorio del código |
+
+### 5.4 Pruebas para Asegurar la Calidad del Despliegue
+1. *Prueba de Conexión*: Al iniciar debe aparecer Conectado a MongoDB Atlas - Base: techstore
+2. *Prueba de API*: GET https://tu-api.onrender.com/api debe retornar 200 OK
+3. *Prueba CRUD*: Usar Postman para hacer POST y GET en /api/productos
+4. *Prueba de Errores*: Desconectar internet y verificar que el catch muestre el error
+5. *Prueba de Seguridad*: Verificar que el archivo .env no se suba a GitHub
+
+*NOTA*: Cambiar MongoDB Local corriendo por MongoDB Atlas en requisitos porque el código usa process.env.MONGO_URI
 
 
 
