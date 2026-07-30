@@ -1,0 +1,146 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechStore</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0a0a0a;
+    color: white;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: #111;
+  }
+  header h1 { color: #00f0ff; }
+  .btn-header {
+    background: #00f0ff;
+    color: black;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .banner {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(90deg, #00f0ff, #0077ff);
+  }
+  .banner h2 { font-size: 28px; margin: 0; }
+  .productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 30px;
+  }
+  .producto {
+    background: #1a1a1a;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    transition: 0.3s;
+  }
+  .producto:hover {
+    border-color: #00f0ff;
+    box-shadow: 0 0 15px #00f0ff55;
+  }
+  .producto img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .producto h3 { color: #00f0ff; margin: 5px 0; }
+  .producto p { margin: 5px 0; color: #ccc; }
+  .btn {
+    width: 100%;
+    background: #00f0ff;
+    color: black;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  .btn:hover { background: #00d0dd; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>TechStore</h1>
+  <button class="btn-header">Inicio</button>
+  <button class="btn-header" id="carrito">Carrito: 0</button>
+</header>
+
+<div class="banner">
+  <h2>Computadoras y Accesorios Tecnológicos</h2>
+  <p>Lo último en hardware, gaming y oficina. Precios directos.</p>
+</div>
+
+<div class="productos">
+  
+  <div class="producto">
+    <img src="https://m.media-amazon.com/images/I/71Z6s+Z1XJL._AC_SL1500_.jpg" alt="Laptop ASUS ROG">
+    <h3>Laptop Gamer ASUS ROG</h3>
+    <p>Intel i7, RTX 4060, 16GB RAM, 1TB SSD</p>
+    <p><b>$1,299</b></p>
+    <button class="btn">Agregar al carrito</button>
+  </div>
+
+  <div class="producto">
+    <img src="https://m.media-amazon.com/images/I/71X9X9X9X9L._AC_SL1500_.jpg" alt="PC Gamer Ryzen">
+    <h3>PC Gamer Armada Ryzen 5</h3>
+    <p>Ryzen 5 5600, RX 7600, 32GB RAM</p>
+    <p><b>$899</b></p>
+    <button class="btn">Agregar al carrito</button>
+  </div>
+
+  <div class="producto">
+    <img src="https://m.media-amazon.com/images/I/61B3B3B3B3L._AC_SL1500_.jpg" alt="Monitor 27 165Hz">
+    <h3>Monitor 27" 165Hz</h3>
+    <p>Panel IPS 2K, 1ms, FreeSync Premium</p>
+    <p><b>$220</b></p>
+    <button class="btn">Agregar al carrito</button>
+  </div>
+
+  <div class="producto">
+    <img src="https://m.media-amazon.com/images/I/71C4C4C4C4L._AC_SL1500_.jpg" alt="Teclado Mecanico">
+    <h3>Teclado Mecánico 60%</h3>
+    <p>Switch Red, RGB, Cable USB-C</p>
+    <p><b>$85</b></p>
+    <button class="btn">Agregar al carrito</button>
+  </div>
+
+</div>
+
+<script>
+let carrito = 0;
+const botones = document.querySelectorAll('.btn');
+const contadorCarrito = document.getElementById('carrito');
+
+botones.forEach(boton => {
+  boton.addEventListener('click', () => {
+    carrito = carrito + 1;
+    contadorCarrito.textContent = Carrito: ${carrito};
+    boton.textContent = "¡Agregado!";
+    boton.style.background = "#00ff88";
+    setTimeout(() => {
+      boton.textContent = "Agregar al carrito";
+      boton.style.background = "#00f0ff";
+    }, 1000);
+  });
+});
+</script>
+
+</body>
+</html>
