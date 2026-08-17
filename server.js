@@ -4,7 +4,7 @@ const { MongoClient } = require('mongodb');
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+"mongodb+srv://tl0479022012_db_user:TU_CONTRASEÑA_NUEVA@cluster0.w1dfiyb.mongodb.net/techstoreDB";
 const url = "mongodb+srv://usuario:contraseña@cluster0.xxxxx.mongodb.net/techstoreDB";
 let db;
 
