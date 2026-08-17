@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="techstoreApp">
+<head>
+  <meta charset="UTF-8">
+  <title>TECHSTORE</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial; }
+    body { background: #0d1117; color: white; }
+    .header { background: #010409; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; position: sticky; top: 0; }
+    .header h1 { color: #58a6ff; font-size: 22px; }
+    .btn-carrito, .btn-salir { background: #21262d; color: white; border: 1px solid #30363d; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-left: 10px; }
+    .btn-salir { background: #da3633; }
+    
+    .banner { background: linear-gradient(90deg, #58a6ff, #1f6feb); padding: 50px 20px; text-align: center; }
+    .banner h2 { font-size: 32px; margin-bottom: 8px; }
+    
+    .container { padding: 30px; max-width: 1400px; margin: auto; }
+    .buscador { text-align: center; margin-bottom: 30px; }
+    .buscador input { width: 400px; padding: 10px 15px; border-radius: 8px; border: 1px solid #30363d; background: #161b22; color: white; }
+    
+    .catalogo { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    .producto { background: #161b22; border: 1px solid #30363d; padding: 15px; width: 260px; border-radius: 10px; }
+    .producto:hover { border-color: #58a6ff; transform: translateY(-3px); }
+    .producto img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
+    .producto h3 { color: #58a6ff; margin-bottom: 8px; }
+    .producto p { font-size: 14px; color: #8b949e; margin-bottom: 10px; min-height: 40px; }
+    .precio { color: #3fb950; font-weight: bold; font-size: 24px; margin-bottom: 10px; }
+    .btn-agregar { background: #238636; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    
+    /* MODAL LOGIN */
+    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 999; }
+    .login-box { background: #161b22; padding: 40px; width: 400px; border-radius: 10px; border: 1px solid #30363d; text-align: center; }
+    .login-box h2 { color: #58a6ff; margin-bottom: 15px; }
+    .login-box input { width: 100%; padding: 12px; margin: 10px 0; background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 6px; }
+    .error { color: #f85149; }
+  </style>
+</head>
+<body ng-controller="MainCtrl">
+
+  <!-- HEADER -->
+  <div class="header" ng-show="logueado">
+    <h1>TECHSTORE</h1>
+    <div>
+      <span>Hola {{usuarioActual}}</span>
+      <button class="btn-carrito" ng-click="mostrarCarrito = !mostrarCarrito">🛒 {{carrito.length}}</button>
+      <button class="btn-salir" ng-click="logout()">Salir</button>
+    </div>
+  </div>
+
+  <div class="banner" ng-show="logueado">
+    <h2>Computadoras y Accesorios Tecnológicos</h2>
+    <p>Lo último en hardware, gaming y oficina</p>
+  </div>
+
+  <div class="container" ng-show="logueado">
+    <div class="buscador">
+      <input type="text" ng-model="buscar" placeholder="Buscar producto...">
+    </div>
+
+    <!-- CATALOGO -->
+    <div class="catalogo" ng-show="!mostrarCarrito">
+      <div class="producto" ng-repeat="p in productos | filter:buscar">
+        <img ng-src="{{p.imagen}}" alt="{{p.nombre}}">
+        <h3>{{ p.nombre }}</h3>
+        <p>{{ p.descripcion }}</p>
+        <p class="precio">${{ p.precio }}</p>
+        <button class="btn-agregar" ng-click="agregarCarrito(p)">Agregar al Carrito</button>
+      </div>
+    </div>
+
+    <!-- CARRITO -->
+    <div ng-show="mostrarCarrito" style="background:#161b22; padding:20px; border-radius:10px;">
+      <h2>🛒 Tu Carrito</h2>
+      <p ng-show="carrito.length == 0">Vacío</p>
+      <div ng-repeat="item in carrito">{{item.nombre}} - ${{item.precio}}</div>
+      <h3 style="color:#3fb950; text-align:right">Total: ${{totalCarrito()}}</h3>
+      <button class="btn-agregar" ng-click="comprar()">Finalizar Compra</button>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div class="modal" ng-show="!logueado">
+    <div class="login-box">
+      <h2>Iniciar Sesión</h2>
+      <p>Usuario: <b>admin</b> Pass: <b>123</b></p>
+      <input type="text" ng-model="login.usuario" placeholder="Usuario">
+      <input type="password" ng-model="login.password" placeholder="Contraseña">
+      <button class="btn-agregar" ng-click="iniciarSesion()">Entrar</button>
+      <p class="error">{{mensajeLogin}}</p>
+    </div>
+  </div>
+
+<script>
+var app = angular.module('techstoreApp', []);
+app.controller('MainCtrl', function($scope, $http) {
+  $scope.logueado = false;
+  $scope.productos = [];
+  $scope.carrito = [];
+  $scope.login = {};
+  $scope.API_URL = "http://localhost:3000/api";
+
+  $scope.iniciarSesion = function() {
+    $http.post($scope.API_URL + "/login", $scope.login)
+    .then(function(res) {
+      $scope.logueado = true;
+      $scope.usuarioActual = $scope.login.usuario;
+      $scope.cargarProductos();
+    }, function(err) {
+      $scope.mensajeLogin = "Usuario o contraseña incorrecta";
+    });
+  }
+
+  $scope.logout = function() { $scope.logueado = false; $scope.carrito = []; }
+  
+  $scope.cargarProductos = function() {
+    $http.get($scope.API_URL + "/productos")
+    .then(function(res) { $scope.productos = res.data; });
+  }
+
+  $scope.agregarCarrito = function(p) { $scope.carrito.push(angular.copy(p)); }
+  $scope.totalCarrito = function() { 
+    let t = 0; angular.forEach($scope.carrito, function(i){ t += i.precio; }); 
+    return t.toFixed(2); 
+  }
+  $scope.comprar = function() { alert("Compra: $" + $scope.totalCarrito()); $scope.carrito = []; }
+});
+</script>
+</body>
+</html>
+
