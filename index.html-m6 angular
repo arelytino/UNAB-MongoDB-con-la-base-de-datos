@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="techstoreApp">
+<head>
+  <meta charset="UTF-8">
+  <title>TECHSTORE - Tienda de Tecnología</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial; background: #0a0a0a; color: white; }
+    .header { background: #111; padding: 15px 30px; display: flex; justify-content: space-between; border-bottom: 2px solid #00e0ff; }
+    .header h1 { color: #00e0ff; }
+    .banner { background: linear-gradient(90deg, #00e0ff, #007bff); padding: 40px; text-align: center; }
+    .container { padding: 20px; max-width: 1300px; margin: auto; }
+    .buscador { text-align: center; margin: 20px; }
+    .buscador input { width: 400px; padding: 12px; border-radius: 20px; border: none; background: #222; color: white; }
+    .producto { background: #1a1a1a; border: 1px solid #333; padding: 15px; margin: 10px; width: 270px; display: inline-block; border-radius: 10px; }
+    .producto:hover { border-color: #00e0ff; }
+    .producto img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; }
+    .precio { color: #00ff88; font-weight: bold; font-size: 22px; }
+    button { background: #00e0ff; color: black; border: none; padding: 10px; cursor: pointer; width: 100%; border-radius: 5px; font-weight: bold; }
+    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; }
+    .login-box { background: #222; padding: 40px; width: 350px; border-radius: 10px; border: 2px solid #00e0ff; text-align: center; }
+    .login-box input { width: 100%; padding: 12px; margin: 10px 0; background: #333; border: 1px solid #555; color: white; }
+  </style>
+</head>
+<body ng-controller="MainCtrl">
+
+  <div class="header">
+    <h1>🚀 TECHSTORE</h1>
+    <div ng-show="logueado">
+      <span>Hola {{usuarioActual}}</span>
+      <button style="width:auto" ng-click="mostrarCarrito = !mostrarCarrito">🛒 {{carrito.length}}</button>
+      <button style="width:auto; background:red; color:white" ng-click="logout()">Salir</button>
+    </div>
+  </div>
+
+  <div class="banner">
+    <h2>Computadoras y Accesorios Tecnológicos</h2>
+  </div>
+
+  <div class="container">
+    <div class="buscador" ng-show="logueado">
+      <input type="text" ng-model="buscar" placeholder="🔍 Buscar producto...">
+    </div>
+
+    <!-- CATÁLOGO CON IMÁGENES -->
+    <div ng-show="logueado && !mostrarCarrito">
+      <div class="producto" ng-repeat="p in productos | filter:buscar">
+        <img ng-src="img/{{p.imagen}}" alt="{{p.nombre}}">
+        <h3 style="color:#00e0ff">{{ p.nombre }}</h3>
+        <p>{{ p.descripcion }}</p>
+        <p class="precio">${{ p.precio }}</p>
+        <p>Stock: {{ p.stock }}</p>
+        <button ng-click="agregarCarrito(p)">Agregar al Carrito</button>
+      </div>
+    </div>
+
+    <!-- CARRITO -->
+    <div ng-show="logueado && mostrarCarrito" style="background:#1a1a1a; padding:20px;">
+      <h2>🛒 Carrito</h2>
+      <div ng-repeat="item in carrito">
+        {{item.nombre}} - ${{item.precio}} <button style="width:30px" ng-click="eliminarCarrito($index)">X</button>
+      </div>
+      <h3 style="color:#00ff88">Total: ${{totalCarrito()}}</h3>
+      <button ng-click="comprar()">Finalizar Compra</button>
+    </div>
+  </div>
+
+  <!-- MODAL LOGIN -->
+  <div class="modal" ng-show="!logueado">
+    <div class="login-box">
+      <h2>Iniciar Sesión</h2>
+      <p>admin / 123</p>
+      <input type="text" ng-model="login.usuario" placeholder="Usuario">
+      <input type="password" ng-model="login.password" placeholder="Contraseña">
+      <button ng-click="iniciarSesion()">Entrar</button>
+      <p style="color:red">{{mensajeLogin}}</p>
+    </div>
+  </div>
+
+<script>
+// ANGULAR - CONTROLADOR
+var app = angular.module('techstoreApp', []);
+app.controller('MainCtrl', function($scope, $http) {
+  $scope.logueado = false;
+  $scope.productos = [];
+  $scope.carrito = [];
+  $scope.login = {};
+
+  $scope.iniciarSesion = function() {
+    $http.post("http://localhost:3000/api/login", $scope.login)
+    .then(function(res) {
+      $scope.logueado = true;
+      $scope.usuarioActual = $scope.login.usuario;
+      $scope.cargarProductos();
+    }, function(err) {
+      $scope.mensajeLogin = "Usuario o contraseña incorrecta";
+    });
+  }
+
+  $scope.logout = function() { $scope.logueado = false; $scope.carrito = []; }
+  
+  $scope.cargarProductos = function() {
+    $http.get("http://localhost:3000/api/productos")
+    .then(function(res) { $scope.productos = res.data; });
+  }
+
+  $scope.agregarCarrito = function(p) { $scope.carrito.push(angular.copy(p)); }
+  $scope.eliminarCarrito = function(i) { $scope.carrito.splice(i, 1); }
+  $scope.totalCarrito = function() { 
+    let t = 0; angular.forEach($scope.carrito, function(i){ t += i.precio; }); 
+    return t.toFixed(2); 
+  }
+  $scope.comprar = function() { alert("Compra: $" + $scope.totalCarrito()); $scope.carrito = []; }
+});
+</script>
+</body>
+</html>
+
+
+¿QUÉ DEBES HACER?
+1. Crea carpeta img al lado de index.html
+2. Mete 5 imágenes: laptop.jpg, pc.jpg, monitor.jpg, teclado.jpg, mouse.jpg
+3. En MongoDB, agrega el campo imagen a cada producto:
+
+{ "nombre": "Portatil Gamer ASUS ROG", "precio": 1299, "descripcion": "Intel i7, RTX 4060", "stock": 10, "imagen": "laptop.jpg" }
