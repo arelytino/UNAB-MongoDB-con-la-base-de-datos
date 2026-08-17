@@ -1,0 +1,131 @@
+html<!DOCTYPE html>
+<html lang="es" ng-app="techstoreApp">
+<head>
+  <meta charset="UTF-8">
+  <title>TECHSTORE - G7</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  
+  <style>
+    *{box-sizing: border-box}
+    body{background:#0d0d0d;color:#fff;font-family:Arial;margin:0}
+    header{background:#111;padding:20px 30px;border-bottom:2px solid #00ffff;display:flex;justify-content:space-between}
+    .logo{color:#00ffff;font-size:24px;font-weight:bold}
+    #btnCarrito{background:#fff;border:none;color:#000;padding:10px 16px;border-radius:5px;font-weight:bold;cursor:pointer}
+    .bandera{background:linear-gradient(90deg,#00ffff 0%, #0d0d0d 100%);text-align:center;padding:50px 20px}
+    .bandera h1{margin:0;font-size:38px}
+    .container{padding:30px; max-width:1200px; margin:auto}
+    .buscador input{width:400px;padding:10px;border-radius:20px;border:none;background:#1a1a1a;color:#fff;display:block;margin:20px auto}
+    .red{display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:20px; padding:30px}
+    .tarjeta{background:#1a1a1a;padding:15px;border-radius:10px;border:1px solid #333}
+    .tarjeta:hover{border-color:#00ffff}
+    .tarjeta img{width:100%; height:150px; object-fit:cover; border-radius:8px; margin-bottom:10px}
+    .tarjeta h3{color:#00ffff}
+    .precio{color:#00ff88;font-size:24px;font-weight:bold}
+    .btn-agregar{background:#00ffff;border:none;color:#000;padding:12px;width:100%;border-radius:5px;font-weight:bold;cursor:pointer}
+    .login-box{background:#1a1a1a;padding:30px;margin:100px auto;border-radius:10px;border:2px solid #00ffff;max-width:400px;text-align:center}
+    .login-box input{width:100%;padding:10px;margin:10px 0;background:#0d0d0d;border:1px solid #333;color:#fff;border-radius:5px}
+    footer{background:#111;text-align:center;padding:25px;margin-top:40px;border-top:1px solid #333}
+  </style>
+</head>
+<body ng-controller="techstoreController">
+
+  <!-- HEADER -->
+  <header ng-show="logueado">
+    <div class="logo">TECHSTORE</div>
+    <button id="btnCarrito" ng-click="verCarrito = !verCarrito">🛒 Carrito: {{carrito.length}}</button>
+  </header>
+
+  <!-- BANDERA -->
+  <section class="bandera" ng-show="logueado">
+    <h1>{{titulo}}</h1>
+    <p>Lo último en hardware, gaming y oficina</p>
+  </section>
+
+  <!-- CONTENIDO -->
+  <main class="container" ng-show="logueado">
+    <div class="buscador">
+      <input type="text" ng-model="buscar" placeholder="Buscar producto...">
+    </div>
+
+    <!-- CATALOGO -->
+    <div class="red" ng-show="!verCarrito">
+      <div class="tarjeta" ng-repeat="producto in productos | filter:buscar">
+        <img ng-src="{{producto.imagen}}"> <!-- IMAGEN DESDE MONGODB -->
+        <h3>{{producto.nombre}}</h3>
+        <p>{{producto.especificaciones}}</p>
+        <div class="precio">${{producto.precio}}</div>
+        <button class="btn-agregar" ng-click="agregarAlCarrito(producto)">Agregar al Carrito</button>
+      </div>
+    </div>
+
+    <!-- CARRITO -->
+    <div ng-show="verCarrito">
+      <h2>🛒 Tu Carrito</h2>
+      <p ng-show="carrito.length==0">Vacío</p>
+      <div ng-repeat="item in carrito">{{item.nombre}} - ${{item.precio}}</div>
+      <h3 style="color:#00ff88">Total: ${{totalCarrito()}}</h3>
+    </div>
+  </main>
+
+  <!-- LOGIN -->
+  <div class="login-box" ng-show="!logueado">
+    <h2>Login</h2>
+    <p>Usuario: <b>admin</b> | Clave: <b>123</b></p>
+    <input type="text" ng-model="usuario" placeholder="Usuario">
+    <input type="password" ng-model="clave" placeholder="Clave">
+    <button ng-click="login()">Ingresar</button>
+    <p style="color:#00ff88;text-align:center">{{mensajeLogin}}</p>
+  </div>
+
+  <footer ng-show="logueado">
+    <p>© 2026 TECHSTORE G7 | San Salvador, SV</p>
+  </footer>
+
+<script>
+// LÓGICA DE ANGULAR
+var app = angular.module('techstoreApp', []);
+app.controller('techstoreController', function($scope, $http) {
+  $scope.titulo = "Computadoras y Accesorios Tecnológicos";
+  $scope.buscar = "";
+  $scope.logueado = false;
+  $scope.verCarrito = false;
+  $scope.productos = []; // VACIO, VIENE DE ATLAS
+  $scope.carrito = [];
+  $scope.mensajeLogin = "";
+  $scope.API = "http://localhost:3000/api";
+
+  // LOGIN CON BACKEND
+  $scope.login = function() {
+    $http.post($scope.API + "/login", {usuario: $scope.usuario, clave: $scope.clave})
+    .then(function(res){
+      $scope.logueado = true;
+      $scope.mensajeLogin = "Bienvenido " + $scope.usuario + " ✓";
+      $scope.cargarProductos(); // CARGAR PRODUCTOS AL ENTRAR
+    }, function(err){
+      $scope.mensajeLogin = "Usuario o contraseña incorrecta X";
+    });
+  }
+
+  // CARGAR PRODUCTOS DESDE MONGODB
+  $scope.cargarProductos = function() {
+    $http.get($scope.API + "/productos")
+    .then(function(res){
+      $scope.productos = res.data;
+    });
+  }
+
+  // CARRITO
+  $scope.agregarAlCarrito = function(producto) {
+    $scope.carrito.push(angular.copy(producto));
+    alert(producto.nombre + ' agregado!');
+  }
+
+  $scope.totalCarrito = function() {
+    let total = 0;
+    angular.forEach($scope.carrito, function(item){ total += item.precio; });
+    return total;
+  }
+});
+</script>
+</body>
+</html>
