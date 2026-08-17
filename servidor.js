@@ -1,4 +1,3 @@
-Borra todo lo que tienes y pega esto:
 require('dotenv').config();
 const express = require('express');
 const { MongoClient } = require('mongodb');
