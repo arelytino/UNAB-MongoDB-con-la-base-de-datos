@@ -1,0 +1,35 @@
+html<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>TechSTore - Reporte Clientes</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f4f4f4; }
+    h1 { color: #2c3e50; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+    th { background: #3498db; color: white; }
+    input { padding: 8px; width: 300px; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+  <h1>📋 Reporte de Clientes - TechSTore</h1>
+  <input type="text" id="buscar" placeholder="Buscar cliente...">
+  
+  <table id="tablaClientes">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>DUI</th>
+        <th>Teléfono</th>
+        <th>Fecha Registro</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>001</td><td>Juan Pérez</td><td>01234567-8</td><td>7000-1234</td><td>15/08/2026</td></tr>
+      <tr><td>002</td><td>María López</td><td>08765432-1</td><td>7890-5678</td><td>16/08/2026</td></tr>
+    </tbody>
+  </table>
+</body>
+</html>
