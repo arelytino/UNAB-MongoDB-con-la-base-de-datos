@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechSTore - Sistema de Reportes</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial; background: #ecf0f1; }
+    
+    header { background: #2c3e50; color: white; padding: 20px; text-align: center; }
+    header h1 { margin-bottom: 5px; }
+    
+    nav { background: #3498db; display: flex; justify-content: center; }
+    nav button { 
+      background: none; border: none; color: white; padding: 15px 30px; 
+      cursor: pointer; font-size: 16px; transition: 0.3s;
+    }
+    nav button:hover, nav button.active { background: #2980b9; }
+    
+    .container { padding: 30px; max-width: 1200px; margin: auto; }
+    .vista { display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .vista.activa { display: block; }
+    
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+    th { background: #3498db; color: white; }
+    tfoot { font-weight: bold; background: #f2f2f2; }
+    input { padding: 10px; width: 300px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>💻 TechSTore</h1>
+    <p>Sistema de Gestión y Reportes</p>
+  </header>
+
+  <nav>
+    <button class="tab-btn active" onclick="mostrarVista('clientes')">📋 Clientes</button>
+    <button class="tab-btn" onclick="mostrarVista('ingresos')">💰 Ingresos</button>
+    <button class="tab-btn" onclick="mostrarVista('egresos')">📉 Egresos</button>
+  </nav>
+
+  <div class="container">
+    
+    <!-- VISTA CLIENTES -->
+    <div id="clientes" class="vista activa">
+      <h2>Reporte de Clientes</h2>
+      <input type="text" placeholder="Buscar cliente por nombre o DUI...">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Nombre</th><th>DUI</th><th>Teléfono</th><th>Fecha Registro</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>001</td><td>Juan Pérez</td><td>01234567-8</td><td>7000-1234</td><td>15/08/2026</td></tr>
+          <tr><td>002</td><td>María López</td><td>08765432-1</td><td>7890-5678</td><td>16/08/2026</td></tr>
+          <tr><td>003</td><td>Carlos Ramírez</td><td>02345678-9</td><td>6123-4567</td><td>17/08/2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- VISTA INGRESOS -->
+    <div id="ingresos" class="vista">
+      <h2>Reporte de Ingresos</h2>
+      <input type="date">
+      <table>
+        <thead>
+          <tr><th>Factura</th><th>Fecha</th><th>Cliente</th><th>Producto</th><th>Total $</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>F001</td><td>17/08/2026</td><td>Juan Pérez</td><td>Laptop HP 15"</td><td>$650.00</td></tr>
+          <tr><td>F002</td><td>17/08/2026</td><td>María López</td><td>Audífonos Gamer</td><td>$45.00</td></tr>
+          <tr><td>F003</td><td>18/08/2026</td><td>Carlos Ramírez</td><td>Teclado Mecánico</td><td>$80.00</td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="4">Total del Mes</td><td>$775.00</td></tr></tfoot>
+      </table>
+    </div>
+
+    <!-- VISTA EGRESOS -->
+    <div id="egresos" class="vista">
+      <h2>Reporte de Egresos</h2>
+      <input type="date">
+      <table>
+        <thead>
+          <tr><th>Fecha</th><th>Concepto</th><th>Categoría</th><th>Proveedor</th><th>Monto $</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>16/08/2026</td><td>Compra de Inventario</td><td>Inventario</td><td>Distribuidora Tec</td><td>$1200.00</td></tr>
+          <tr><td>17/08/2026</td><td>Pago de Luz</td><td>Servicios</td><td>CAESS</td><td>$85.00</td></tr>
+          <tr><td>18/08/2026</td><td>Internet</td><td>Servicios</td><td>Claro</td><td>$35.00</td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="4">Total Egresos del Mes</td><td>$1320.00</td></tr></tfoot>
+      </table>
+    </div>
+
+  </div>
+
+  <script>
+    function mostrarVista(id) {
+      // Oculta todas
+      document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      
+      // Muestra la seleccionada
+      document.getElementById(id).classList.add('activa');
+      event.target.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>

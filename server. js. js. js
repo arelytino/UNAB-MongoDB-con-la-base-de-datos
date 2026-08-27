@@ -1,0 +1,68 @@
+require('dotenv').config(); // Para usar el .env
+const express = require('express'); // Framework
+const { MongoClient } = require('mongodb'); // Driver de Mongo
+
+const app = express();
+app.use(express.json()); // Para que lea JSON
+
+const client = new MongoClient(process.env.MONGO_URI);
+let db;
+
+// Conectar a MongoDB Atlas
+client.connect().then(() => {
+  db = client.db("techstore");
+  console.log("✅ Conectado a MongoDB Atlas - Módulo 5");
+}).catch(err => console.error(err));
+// RUTA GET: Traer todos los productos
+app.get('/api/productos', async (req, res) => {
+  try {
+    const productos = await db.collection("productos").find({}).toArray();
+    res.json(productos);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener productos" });
+  }
+});
+
+// RUTA POST: Agregar un producto
+app.post('/api/productos', async (req, res) => {
+  try {
+    const result = await db.collection("productos").insertOne(req.body);
+    res.json({ mensaje: "Producto agregado", id: result.insertedId });
+  } catch (error) {
+    res.status(500).json({ error: "Error al agregar producto" });
+  }
+});
+
+// Iniciar servidor
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(🚀 Servidor Módulo 5 corriendo en http://localhost:${PORT});
+});
+// ========== RUTAS DEL MÓDULO 5 ==========
+
+// RUTA GET: Traer todos los productos
+app.get('/api/productos', async (req, res) => {
+  try {
+    const productos = await db.collection("productos").find({}).toArray();
+    res.json(productos);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener productos" });
+  }
+});
+
+// RUTA POST: Agregar un producto
+app.post('/api/productos', async (req, res) => {
+  try {
+    const result = await db.collection("productos").insertOne(req.body);
+    res.json({ mensaje: "Producto agregado", id: result.insertedId });
+  } catch (error) {
+    res.status(500).json({ error: "Error al agregar producto" });
+  }
+});
+
+// Iniciar servidor
+const PORT = 3000;
+app.listen(PORT, () => {
+'  console.log(🚀 Servidor Módulo 5 corriendo en http://localhost:${PORT});
+});' 
+//server.js Modulo 5 //

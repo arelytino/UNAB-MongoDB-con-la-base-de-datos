@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="techstoreApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TECHSTORE - G7</title>
+  
+  <!-- 1. AQUÍ SE IMPLEMENTA ANGULAR -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+
+  <style>
+    *{box-sizing: border-box}
+    body{background:#0d0d0d;color:#fff;font-family:Arial;margin:0}
+
+    header{background:#111;padding:20px 30px;border-bottom:2px solid #00ffff;display:flex;justify-content:space-between;align-items:center}
+    .logo{color:#00ffff;font-size:24px;font-weight:bold}
+    #btnCarrito{background:#fff;border:none;color:#000;padding:10px 16px;border-radius:5px;font-weight:bold}
+
+    .bandera{background:linear-gradient(90deg,#00ffff 0%, #0d0d0d 100%);text-align:center;padding:50px 20px}
+    .bandera h1{margin:0;font-size:38px}
+
+    .red{display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:20px;padding:30px}
+
+    .tarjeta{background:#1a1a1a;padding:20px;border-radius:10px;border:1px solid #333;transition:.3s}
+    .tarjeta:hover{border-color:#00ffff;box-shadow:0 0 15px #00ffff;transform:translateY(-5px)}
+    .tarjeta h3{color:#00ffff}
+    .precio{color:#00ff88;font-size:24px;font-weight:bold;margin:10px 0}
+    .btn-agregar{background:#00ffff;border:none;color:#000;padding:12px;border-radius:5px;font-weight:bold;cursor:pointer;width:100%}
+
+    .login-box{background:#1a1a1a;padding:20px;margin:30px auto;border-radius:10px;border:1px solid #333;max-width:400px}
+    .login-box input{width:100%;padding:10px;margin:10px 0;background:#0d0d0d;border:1px solid #333;color:#fff;border-radius:5px}
+    .login-box button{width:100%;background:#00ffff;border:none;color:#000;padding:12px;border-radius:5px;font-weight:bold;cursor:pointer}
+
+    footer{background:#111;text-align:center;padding:25px;margin-top:40px;border-top:1px solid #333}
+  </style>
+</head>
+<body ng-controller="techstoreController">
+
+  <header>
+    <div class="logo">TECHSTORE</div>
+    <button id="btnCarrito">Carrito: {{carrito.length}}</button>
+  </header>
+
+  <section class="bandera">
+    <h1>{{titulo}}</h1>
+    <p>Lo último en hardware, gaming y oficina</p>
+  </section>
+
+  <main>
+    <!-- BUSCADOR -->
+    <input type="text" ng-model="buscar" placeholder="Buscar producto..." style="display:block;margin:20px auto;padding:10px;width:300px;background:#1a1a1a;border:1px solid #333;color:#fff;border-radius:5px">
+    
+    <!-- 2. CATÁLOGO CON ANGULAR -->
+    <div class="red">
+      <div class="tarjeta" ng-repeat="producto in productos | filter:buscar">
+        <h3>{{producto.nombre}}</h3>
+        <p>{{producto.especificaciones}}</p>
+        <div class="precio">${{producto.precio}}</div>
+        <!-- 3. BOTÓN CARRITO CON ANGULAR -->
+        <button class="btn-agregar" ng-click="agregarAlCarrito(producto)">Agregar al Carrito</button>
+      </div>
+    </div>
+
+    <!-- 4. LOGIN CON ANGULAR -->
+    <div class="login-box">
+      <h2>Login</h2>
+      <input type="text" ng-model="usuario" placeholder="Usuario: admin">
+      <input type="password" ng-model="clave" placeholder="Clave: 123">
+      <button ng-click="login()">Ingresar</button>
+      <p style="color:#00ff88;text-align:center">{{mensajeLogin}}</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 TECHSTORE G7 | San Salvador, SV</p>
+  </footer>
+
+  <!-- 5. LÓGICA DE ANGULAR -->
+  <script>
+    var app = angular.module('techstoreApp', []);
+    
+    app.controller('techstoreController', function($scope) {
+      $scope.titulo = "Computadoras y Accesorios Tecnológicos";
+      $scope.buscar = "";
+      
+      // CATÁLOGO
+      $scope.productos = [
+        {id:1, nombre:"Portátil Gamer ASUS ROG", precio:1299, especificaciones:"Intel I7, RTX 4060, 16GB RAM, SSD 1TB"},
+        {id:2, nombre:"PC Gamer Ryzen 5", precio:899, especificaciones:"Ryzen 5 5600, RX 7600, 32GB RAM"},
+        {id:3, nombre:"Monitor 27 pulgadas 165Hz", precio:220, especificaciones:"Panel IPS 2K, 1ms, FreeSync"},
+        {id:4, nombre:"Teclado Mecánico 60%", precio:85, especificaciones:"Switch Red, RGB, USB-C"},
+        {id:5, nombre:"Mouse Logitech G Pro", precio:45, especificaciones:"Inalámbrico, 25K DPI"},
+        {id:6, nombre:"Audífonos HyperX Cloud", precio:60, especificaciones:"Sonido 7.1 Virtual"}
+      ];
+      
+      // CARRITO
+      $scope.carrito = [];
+      $scope.agregarAlCarrito = function(producto) {
+        $scope.carrito.push(producto);
+        alert(producto.nombre + ' agregado!');
+      };
+      
+      // LOGIN
+      $scope.login = function() {
+        if($scope.usuario == "admin" && $scope.clave == "123"){
+          $scope.mensajeLogin = "Bienvenido " + $scope.usuario + " ✓";
+        } else {
+          $scope.mensajeLogin = "Usuario o contraseña incorrecta ✗";
+        }
+      };
+      
+    });
+  </script>
+
+</body>
+</html>
